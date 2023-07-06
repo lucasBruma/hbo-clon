@@ -27,8 +27,8 @@ export function Footer () {
         })}
       </div>
       <div className='flex flex-col gap-2 text-sm'>
-        <p>Esta es una página ficticia.</p>
-        <p>Clon para practicar mis skills © 2022</p>
+        <p>Esta es una página ficticia. Desarrollada por Lucas Brumatti.</p>
+        <p>Clon para practicar mis skills © 2023</p>
       </div>
       
     </footer>
