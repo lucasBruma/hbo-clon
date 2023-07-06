@@ -35,6 +35,11 @@ interface Props {
     }
 }
 
+interface Person{
+    known_for_department: string;
+    name: string;
+}
+
 interface Movie {
     title: string;
     overview: string;
@@ -51,10 +56,10 @@ export default async function DetailMovie({params}: Props) {
     
     const year = movie.release_date.split('-')[0]
     const duration = getDuration(movie.runtime) 
-    const directors = credits.crew.filter(crew => crew.known_for_department === 'Directing')
-    const cast = credits.cast.filter(actor => actor.known_for_department === 'Acting').slice(0,8)
-    const producers = credits.crew.filter(crew => crew.known_for_department === 'Production').slice(0,2)
-    const screenwriters = credits.crew.filter(crew => crew.known_for_department === 'Writing').slice(0,2)
+    const directors = credits.crew.filter((crew:Person) => crew.known_for_department === 'Directing')
+    const cast = credits.cast.filter((actor:Person) => actor.known_for_department === 'Acting').slice(0,8)
+    const producers = credits.crew.filter((crew:Person) => crew.known_for_department === 'Production').slice(0,2)
+    const screenwriters = credits.crew.filter((crew:Person) => crew.known_for_department === 'Writing').slice(0,2)
     
 
   return (
@@ -86,13 +91,13 @@ export default async function DetailMovie({params}: Props) {
                 <div className='flex flex-col gap-4'>
                     <h1 className='mb-4 font-bold'>Cast</h1>
                     <div className='grid grid-cols-2 gap-4'>
-                        {cast.map((actor, id) => (
+                        {cast.map((actor: Person, id: number) => (
                             <p key={id}>{actor.name}</p>
                         ))}
                     </div>
                     <h1 className='mb-4 font-bold'>Producers</h1>
                     <div className='grid grid-cols-2 gap-4'>
-                        {producers.map((producer, id) => (
+                        {producers.map((producer: Person, id: number) => (
                             <p key={id}>{producer.name}</p>
                         ))}
                     </div>
@@ -100,13 +105,13 @@ export default async function DetailMovie({params}: Props) {
                 <div className='flex flex-col gap-4'>
                     <h1 className='mb-4 font-bold'>Directors</h1>
                     <div className='grid grid-cols-2 gap-4'>
-                        {directors.map((director, id) => (
+                        {directors.map((director: Person, id: number) => (
                             <p key={id}>{director.name}</p>
                         ))}
                     </div>
                     <h1 className='mb-4 font-bold'>Screenwriters</h1>
                     <div className='grid grid-cols-2 gap-4'>
-                        {screenwriters.map((writer, id) => (
+                        {screenwriters.map((writer: Person, id: number) => (
                             <p key={id}>{writer.name}</p>
                         ))}
                     </div>

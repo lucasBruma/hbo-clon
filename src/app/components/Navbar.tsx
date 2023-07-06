@@ -16,7 +16,7 @@ export function Navbar () {
   const [scrollTop, setScrollTop] = useState(0);
 
   useEffect(() => {
-    const handleScroll = (event: React.UIEvent<HTMLElement, UIEvent>) => {
+    const handleScroll: EventListener = (event: Event) => {
       setScrollTop(window.scrollY);
     };
 
