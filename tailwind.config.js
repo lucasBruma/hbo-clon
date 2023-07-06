@@ -14,7 +14,10 @@ module.exports = {
       },
       colors:{
         'secondary': '#d3d3d3',
-        'terciary': '#837b88'
+        'tertiary': '#837b88',
+        'btn': '#2d2a31',
+        'btn-hover': '#242120',
+        'bg-dark': '#050211'
       }
     },
   },

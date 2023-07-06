@@ -16,7 +16,7 @@ const links = [{
 export function Footer () {
   return (
 
-    <footer className="flex flex-row items-center justify-between gap-4 pt-36 px-12 pb-10 text-terciary">
+    <footer className="flex flex-row items-center justify-between gap-4 pt-36 px-12 pb-10 text-tertiary">
       <div className='flex flex-row gap-6'>
         {links.map((link, index) => {
           return (
@@ -27,7 +27,7 @@ export function Footer () {
         })}
       </div>
       <div className='flex flex-col gap-2 text-sm'>
-        <p>Este es una página ficticia.</p>
+        <p>Esta es una página ficticia.</p>
         <p>Clon para practicar mis skills © 2022</p>
       </div>
       
