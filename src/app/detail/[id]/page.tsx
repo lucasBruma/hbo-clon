@@ -1,6 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+const fetchCredits = (id: string) => {
+    return fetch(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=2da80b5572e13cae30e5294e989a9d6c`)
+    .then(res => res.json())
+}
+
 const fetchMovie = (id: string) => {
     return fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=2da80b5572e13cae30e5294e989a9d6c`)
       .then(res => res.json())
@@ -42,9 +47,15 @@ interface Movie {
 export default async function DetailMovie({params}: Props) {
     const {id} = params
     const movie: Movie = await fetchMovie(id)
-    console.log(movie)
+    const credits = await fetchCredits(id)
+    
     const year = movie.release_date.split('-')[0]
     const duration = getDuration(movie.runtime) 
+    const directors = credits.crew.filter(crew => crew.known_for_department === 'Directing')
+    const cast = credits.cast.filter(actor => actor.known_for_department === 'Acting').slice(0,8)
+    const producers = credits.crew.filter(crew => crew.known_for_department === 'Production').slice(0,2)
+    const screenwriters = credits.crew.filter(crew => crew.known_for_department === 'Writing').slice(0,2)
+    
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between text-white relative">
@@ -70,6 +81,36 @@ export default async function DetailMovie({params}: Props) {
             </div>        
             <div className=''>
                 <p>{movie.overview}</p>
+            </div>
+            <div className='flex flex-row gap-4'>
+                <div className='flex flex-col gap-4'>
+                    <h1 className='mb-4 font-bold'>Cast</h1>
+                    <div className='grid grid-cols-2 gap-4'>
+                        {cast.map((actor, id) => (
+                            <p key={id}>{actor.name}</p>
+                        ))}
+                    </div>
+                    <h1 className='mb-4 font-bold'>Producers</h1>
+                    <div className='grid grid-cols-2 gap-4'>
+                        {producers.map((producer, id) => (
+                            <p key={id}>{producer.name}</p>
+                        ))}
+                    </div>
+                </div>
+                <div className='flex flex-col gap-4'>
+                    <h1 className='mb-4 font-bold'>Directors</h1>
+                    <div className='grid grid-cols-2 gap-4'>
+                        {directors.map((director, id) => (
+                            <p key={id}>{director.name}</p>
+                        ))}
+                    </div>
+                    <h1 className='mb-4 font-bold'>Screenwriters</h1>
+                    <div className='grid grid-cols-2 gap-4'>
+                        {screenwriters.map((writer, id) => (
+                            <p key={id}>{writer.name}</p>
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
 
