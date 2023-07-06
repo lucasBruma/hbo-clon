@@ -1,3 +1,4 @@
+import { Gallery } from '@/app/components/Gallery'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -10,10 +11,19 @@ const fetchMovie = (id: string) => {
     return fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=2da80b5572e13cae30e5294e989a9d6c`)
       .then(res => res.json())
 }
+
+const fetchSimilarMovies = (id: string) =>{
+    return fetch(`https://api.themoviedb.org/3/movie/${id}/similar?api_key=2da80b5572e13cae30e5294e989a9d6c`)
+    .then(res => res.json())
+}
   
 const getBackdropUrl = (image:string) =>{
     return `https://image.tmdb.org/t/p/w1280${image}`
 }
+
+const getPosterUrl = (image:string) =>{
+    return `https://image.tmdb.org/t/p/w1280${image}`
+  }
 
 // write a function that given the minutes returns the duration of a movie in this format '[hours] H [minutes] MIN'
 // for example: if the minutes is 120, the function should return '2 H 20 MIN'
@@ -49,28 +59,41 @@ interface Movie {
     // Agrega aquí las propiedades adicionales que necesites
   }
 
+type MovieType = {
+    title: string,
+    backdrop_path: string,
+    poster_path: string
+}
+
 export default async function DetailMovie({params}: Props) {
     const {id} = params
-    const movie: Movie = await fetchMovie(id)
-    const credits = await fetchCredits(id)
+    const movie = fetchMovie(id)
+    const credits = fetchCredits(id)
+    const similarMovies = fetchSimilarMovies(id)
+
+    const [movie2, credits2, similarMovies2] = await Promise.all([movie, credits, similarMovies])
+
+    const similarMoviesSliced = similarMovies2.results.slice(0,12)
+    const similarMoviesPoster = similarMoviesSliced.map((movie: MovieType) => getPosterUrl(movie.poster_path))
+
     
-    const year = movie.release_date.split('-')[0]
-    const duration = getDuration(movie.runtime) 
-    const directors = credits.crew.filter((crew:Person) => crew.known_for_department === 'Directing')
-    const cast = credits.cast.filter((actor:Person) => actor.known_for_department === 'Acting').slice(0,8)
-    const producers = credits.crew.filter((crew:Person) => crew.known_for_department === 'Production').slice(0,2)
-    const screenwriters = credits.crew.filter((crew:Person) => crew.known_for_department === 'Writing').slice(0,2)
+    const year = movie2.release_date.split('-')[0]
+    const duration = getDuration(movie2.runtime) 
+    const directors = credits2.crew.filter((crew:Person) => crew.known_for_department === 'Directing').slice(0,8)
+    const cast = credits2.cast.filter((actor:Person) => actor.known_for_department === 'Acting').slice(0,8)
+    const producers = credits2.crew.filter((crew:Person) => crew.known_for_department === 'Production').slice(0,8)
+    const screenwriters = credits2.crew.filter((crew:Person) => crew.known_for_department === 'Writing').slice(0,2)
     
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between text-white relative">
         <div className='w-[100vw] md:w-full overflow-hidden relative text-secondary h-[500px]'>
-            <Image src={getBackdropUrl(movie.backdrop_path)} alt={movie.title} className='w-full object-cover' width={1280} height={420} />
+            <Image src={getBackdropUrl(movie2.backdrop_path)} alt={movie2.title} className='w-full object-cover' width={1280} height={420} />
             <div className='absolute bottom-0 w-full h-56 bg-gradient-to-t from-bg-dark ' />
         </div>
-        <div className='relative pl-12 w-3/4 self-baseline flex flex-col gap-8 relative top-[-60px]'>
-            <div className='flex flex-col justify-start gap-6'>
-                <h1 className='text-4xl font-bold text-white max-w-[500px]'>{movie.title}</h1>
+        <div className='relative self-baseline flex flex-col gap-8 relative top-[-60px] w-full'>
+            <div className='flex flex-col justify-start gap-6 pl-12'>
+                <h1 className='text-4xl font-bold text-white max-w-[500px]'>{movie2.title}</h1>
                 <div className='flex flex-row gap-4'>
                     <p>{duration}</p>
                     <p>{year}</p>     
@@ -84,37 +107,49 @@ export default async function DetailMovie({params}: Props) {
                 </button>
                 </div>
             </div>        
-            <div className=''>
-                <p>{movie.overview}</p>
+            <div className='w-3/4 pl-12'>
+                <p>{movie2.overview}</p>
             </div>
-            <div className='flex flex-row gap-4'>
-                <div className='flex flex-col gap-4'>
-                    <h1 className='mb-4 font-bold'>Cast</h1>
-                    <div className='grid grid-cols-2 gap-4'>
-                        {cast.map((actor: Person, id: number) => (
-                            <p key={id}>{actor.name}</p>
-                        ))}
+            <div className='w-full mt-8'>
+                <Gallery movies={similarMoviesSliced} moviesPoster={similarMoviesPoster} title={'Similar movies'}  />
+            </div>
+            <div className='flex flex-row gap-24 w-3/4 pl-12'>
+                <div className='flex flex-col gap-12'>
+                    <div className='flex flex-col gap-4'>
+                        <h1 className='font-bold'>Cast</h1>
+                        <div className='grid grid-cols-2 gap-4'>
+                            {cast.map((actor: Person, id: number) => (
+                                <p key={id}>{actor.name}</p>
+                            ))}
+                        </div>
                     </div>
-                    <h1 className='mb-4 font-bold'>Producers</h1>
-                    <div className='grid grid-cols-2 gap-4'>
-                        {producers.map((producer: Person, id: number) => (
-                            <p key={id}>{producer.name}</p>
-                        ))}
+                    <div className='flex flex-col gap-4'>
+                        <h1 className='font-bold'>Producers</h1>
+                        <div className='grid grid-cols-2 gap-4'>
+                            {producers.map((producer: Person, id: number) => (
+                                <p key={id}>{producer.name}</p>
+                            ))}
+                        </div> 
                     </div>
                 </div>
-                <div className='flex flex-col gap-4'>
-                    <h1 className='mb-4 font-bold'>Directors</h1>
-                    <div className='grid grid-cols-2 gap-4'>
-                        {directors.map((director: Person, id: number) => (
-                            <p key={id}>{director.name}</p>
-                        ))}
+                <div className='flex flex-col gap-12'>
+                    <div className='flex flex-col gap-4'>
+                        <h1 className='font-bold'>Directors</h1>
+                        <div className='grid grid-cols-2 gap-4'>
+                            {directors.map((director: Person, id: number) => (
+                                <p key={id}>{director.name}</p>
+                            ))}
+                        </div>
                     </div>
-                    <h1 className='mb-4 font-bold'>Screenwriters</h1>
-                    <div className='grid grid-cols-2 gap-4'>
-                        {screenwriters.map((writer: Person, id: number) => (
-                            <p key={id}>{writer.name}</p>
-                        ))}
+                    <div className='flex flex-col gap-4'>
+                        <h1 className='font-bold'>Screenwriters</h1>
+                        <div className='grid grid-cols-2 gap-4'>
+                            {screenwriters.map((writer: Person, id: number) => (
+                                <p key={id}>{writer.name}</p>
+                            ))}
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>

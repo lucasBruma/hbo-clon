@@ -39,3 +39,34 @@ body {
 .swiper-pagination-bullet{
   background: #d3d3d3 !important;
 }
+
+.gallery > .swiper-button-next{
+  display: none;
+}
+
+.gallery > .swiper-button-prev{
+  display: none;
+}
+
+.gallery:hover > .swiper-button-next{
+  display: flex;
+  z-index: 30;
+}
+
+.gallery:hover > .swiper-button-prev{
+  display: flex;
+  z-index: 30;
+}
+
+.gallery > .swiper-button-prev::after{
+  font-size: 30px !important;
+}
+
+.gallery > .swiper-button-next:after{
+  font-size: 30px !important;
+}
+
+.gallery > .swiper-wrapper{
+  padding-left: 40px;
+  padding-right: 40px;
+}
