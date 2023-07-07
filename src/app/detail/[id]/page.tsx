@@ -58,7 +58,7 @@ export default async function DetailMovie({params}: Props) {
     <main className="flex min-h-screen flex-col items-center justify-between text-white relative">
         <div className='w-[100vw] md:w-full overflow-hidden relative text-secondary h-[500px]'>
             <Image src={getBackdropUrl(movie2.backdrop_path)} alt={movie2.title} className='w-full object-cover' width={1280} height={420} />
-            <div className='absolute bottom-0 w-full h-56 bg-gradient-to-t from-bg-dark ' />
+            <div className='absolute bottom-0 w-full h-56 bg-gradient-to-t from-bg-very-dark ' />
         </div>
         <div className='relative self-baseline flex flex-col gap-8 relative top-[-60px] w-full'>
             <div className='flex flex-col justify-start gap-6 pl-12'>

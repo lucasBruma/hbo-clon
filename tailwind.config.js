@@ -17,7 +17,8 @@ module.exports = {
         'tertiary': '#837b88',
         'btn': '#2d2a31',
         'btn-hover': '#242120',
-        'bg-dark': '#050211'
+        'bg-dark': '#050211',
+        'bg-very-dark': '#03010a'
       }
     },
   },

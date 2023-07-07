@@ -44,7 +44,7 @@ export function Carousel ({ movies, moviesBackdrop }: CarouselHero) {
                     </Link>
                   </div>
                 </div>
-                <div className='absolute bottom-0 w-full h-72 bg-gradient-to-t from-bg-dark z-10' />
+                <div className='absolute bottom-0 w-full h-72 bg-gradient-to-t from-bg-very-dark z-10' />
               </SwiperSlide>
             ))}
             
