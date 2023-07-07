@@ -10,20 +10,10 @@ import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 SwiperCore.use([Navigation]);
 import Link from 'next/link'
+import { CarouselGallery } from '../types/types';
 
 
-type MovieType = {
-  title: string,
-  id: string,
-}
-
-type CarouselProps = {
-  movies: Array<MovieType>;
-  moviesPoster: Array<string>;
-  title: string;
-};
-
-export function Gallery ({ movies, moviesPoster, title }: CarouselProps) {
+export function Gallery ({ movies, moviesPoster, title }: CarouselGallery) {
 
   return (
     <div className='flex flex-col items-start justify-center'>

@@ -1,17 +1,7 @@
 import Image from 'next/image'
+import Link from 'next/link'
+import { links } from '../constants/constants'
 
-const links = [{
-  label: './youtube.svg',
-},{
-  label: './twitter.svg',
-},{
-  label: './facebook.svg',
-},
-{
-  label: './instagram.svg',
-},
-
-]
 
 export function Footer () {
   return (
@@ -20,9 +10,9 @@ export function Footer () {
       <div className='flex flex-row gap-6'>
         {links.map((link, index) => {
           return (
-            <span key={index}>
+            <Link key={index} href={link.href} target='blank'>
               <Image src={link.label} alt="search" width={15} height={15} />
-            </span>
+            </Link>
           )
         })}
       </div>

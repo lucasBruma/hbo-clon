@@ -2,15 +2,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import {useEffect, useState} from 'react';
+import { linksNav } from '../constants/constants';
 
-const links = [{
-  label: 'Movies',
-  route: '/'
-},
-{
-  label: 'Test',
-  route: '/test'
-}]
 
 export function Navbar () {
   const [scrollTop, setScrollTop] = useState(0);
@@ -38,7 +31,7 @@ export function Navbar () {
             </span>
             <ul className='flex items-center list-style-none gap-4'>
                 { 
-                links.map((link, index) => {
+                linksNav.map((link, index) => {
                     return (
                     <li key={index} className='hover:text-white ease-in-out duration-300'>
                         <Link href={link.route}>{link.label}</Link>

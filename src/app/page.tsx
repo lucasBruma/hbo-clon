@@ -1,26 +1,6 @@
-import Image from 'next/image'
 import {Hero} from './components/Hero'
 import { Gallery } from './components/Gallery'
-
-const fetchTrendingMovies = () => {
-  return fetch('https://api.themoviedb.org/3/trending/all/week?api_key=2da80b5572e13cae30e5294e989a9d6c&page=1')
-    .then(res => res.json())
-}
-
-const fetchRatedMovies = () => {
-  return fetch('https://api.themoviedb.org/3/movie/top_rated?api_key=2da80b5572e13cae30e5294e989a9d6c&page=1')
-    .then(res => res.json())
-}
-
-const fetchActionMovies = () =>{
-  return fetch('https://api.themoviedb.org/3/discover/movie?api_key=2da80b5572e13cae30e5294e989a9d6c&with_genres=28&page=1')
-    .then(res => res.json())
-}
-
-const fetchFamilyMovies = () =>{
-  return fetch('https://api.themoviedb.org/3/discover/movie?api_key=2da80b5572e13cae30e5294e989a9d6c&with_genres=10751&page=1')
-    .then(res => res.json())
-}
+import {fetchTrendingMovies, fetchRatedMovies, fetchActionMovies, fetchFamilyMovies} from './utils/fetch'
 
 const getPosterUrl = (image:string) =>{
   return `https://image.tmdb.org/t/p/w1280${image}`
@@ -31,7 +11,6 @@ type MovieType = {
   backdrop_path: string,
   poster_path: string
 }
-
 
 
 export default async function Home() {

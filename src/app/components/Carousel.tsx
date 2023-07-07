@@ -10,19 +10,10 @@ import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 SwiperCore.use([Navigation]);
 import Link from 'next/link'
+import { CarouselHero } from '../types/types';
+ 
 
-
-type MovieType = {
-  title: string,
-  id: string,
-}
-
-type CarouselProps = {
-  movies: Array<MovieType>;
-  moviesBackdrop: Array<string>;
-};
-
-export function Carousel ({ movies, moviesBackdrop }: CarouselProps) {
+export function Carousel ({ movies, moviesBackdrop }: CarouselHero) {
 
   return (
         <Swiper

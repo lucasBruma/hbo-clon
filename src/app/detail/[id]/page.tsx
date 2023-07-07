@@ -1,32 +1,10 @@
 import { Gallery } from '@/app/components/Gallery'
 import Image from 'next/image'
-import Link from 'next/link'
 
-const fetchCredits = (id: string) => {
-    return fetch(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=2da80b5572e13cae30e5294e989a9d6c`)
-    .then(res => res.json())
-}
+import {fetchCredits, fetchMovie, fetchSimilarMovies} from '../../utils/fetch'
+import { getPosterUrl, getBackdropUrl } from '../../utils/getPhotos'
 
-const fetchMovie = (id: string) => {
-    return fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=2da80b5572e13cae30e5294e989a9d6c`)
-      .then(res => res.json())
-}
 
-const fetchSimilarMovies = (id: string) =>{
-    return fetch(`https://api.themoviedb.org/3/movie/${id}/similar?api_key=2da80b5572e13cae30e5294e989a9d6c`)
-    .then(res => res.json())
-}
-  
-const getBackdropUrl = (image:string) =>{
-    return `https://image.tmdb.org/t/p/w1280${image}`
-}
-
-const getPosterUrl = (image:string) =>{
-    return `https://image.tmdb.org/t/p/w1280${image}`
-  }
-
-// write a function that given the minutes returns the duration of a movie in this format '[hours] H [minutes] MIN'
-// for example: if the minutes is 120, the function should return '2 H 20 MIN'
 const getDuration = (time:number) => {
     let duration;
     if (time < 60) {
@@ -50,15 +28,6 @@ interface Person{
     name: string;
 }
 
-interface Movie {
-    title: string;
-    overview: string;
-    backdrop_path: string;
-    release_date: string;
-    runtime: number;
-    // Agrega aquí las propiedades adicionales que necesites
-  }
-
 type MovieType = {
     title: string,
     backdrop_path: string,
@@ -71,7 +40,7 @@ export default async function DetailMovie({params}: Props) {
     const credits = fetchCredits(id)
     const similarMovies = fetchSimilarMovies(id)
 
-    const [movie2, credits2, similarMovies2] = await Promise.all([movie, credits, similarMovies])
+    const [movie2 , credits2, similarMovies2]= await Promise.all([movie, credits, similarMovies])
 
     const similarMoviesSliced = similarMovies2.results.slice(0,12)
     const similarMoviesPoster = similarMoviesSliced.map((movie: MovieType) => getPosterUrl(movie.poster_path))
