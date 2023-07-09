@@ -45,7 +45,16 @@ export function Navbar () {
             <span className='hover:cursor-pointer'>
               <Image src="/search.svg" alt="search" width={30} height={30} />
             </span>
-            <button className='hover:text-white ease-in-out duration-300'>Log in</button>
+            <button className='hover:text-white ease-in-out duration-300'>
+              <Link href='/login'>
+              Log in
+              </Link> 
+            </button>
+            <button className='hover:text-white ease-in-out duration-300'>
+              <Link href='/register'>
+                Sign up
+              </Link>
+            </button>
         </div>
     </header>
 

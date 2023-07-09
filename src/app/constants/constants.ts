@@ -22,4 +22,8 @@ export const linksNav = [{
   {
     label: 'TV Shows',
     route: '/'
+  },
+  {
+    label: 'My list',
+    route: '/'
   }]

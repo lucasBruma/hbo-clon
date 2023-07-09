@@ -14,18 +14,40 @@ import { CarouselGallery } from '../types/types';
 
 
 export function Gallery ({ movies, moviesPoster, title }: CarouselGallery) {
-
+  const breakpoints = {
+    320: {
+        slidesPerView: 2,
+        slidesPerGroup: 2,
+        
+    },
+    768: {
+        slidesPerView: 2,
+        slidesPerGroup:2
+    },
+    1024: {
+        slidesPerView: 6,
+        slidesPerGroup:6
+    },
+    1440: {
+        slidesPerView: 6,
+        slidesPerGroup:6
+    },
+    1800:{
+        slidesPerView: 8,
+        slidesPerGroup:8
+    }
+}
+console.log(moviesPoster)
   return (
     <div className='flex flex-col items-start justify-center'>
         <h2 className='text-white text-center text-xl font-bold mb-5 pl-10'>{title}</h2>
         <Swiper
             spaceBetween={0}
-            slidesPerView={6}
-            slidesPerGroup={6}
             modules={[Navigation, Thumbs, Pagination, Autoplay]}
             className='group w-[60%] md:w-full overflow-hidden relative select-none h-[310px] gallery'
             navigation={true}
             loop={true}
+            breakpoints={breakpoints}
         >
             <div className='group-hover:bg-gradient-to-r from-bg-dark absolute h-[300px] w-16 top-0 z-10' />
             {movies.map((movie, index) => (
